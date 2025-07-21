@@ -1,4 +1,3 @@
-import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
@@ -26,7 +25,6 @@ const AddQuiz = ({ quiz }) => {
       };
       console.log("quizMetadata", quizMetadata);
       setMetadata(quizMetadata);
-      // var a = []
       const a = quiz.options.map((option, index) => ({
         question: quiz.questions[index],
         optionA: option[0],
@@ -42,8 +40,6 @@ const AddQuiz = ({ quiz }) => {
     }
   }, [quiz]);
 
-  const navigate = useNavigate();
-
   const handleFormChange = (index, event) => {
     let data = [...inputFields];
     data[index][event.target.name] = event.target.value;
@@ -51,7 +47,6 @@ const AddQuiz = ({ quiz }) => {
   };
 
   const createQuizJson = () => {
-    // const newMetadata = {...metadata[0]}
     metadata["questions"] = inputFields.map((mcq) => mcq.question);
     const options = inputFields.map((mcq) => [
       mcq.optionA,
@@ -68,31 +63,30 @@ const AddQuiz = ({ quiz }) => {
     } else {
       metadata["id"] = uuidv4();
     }
-    //console.log("yo", metadata);
   };
 
   const isValid = () => {
     var valid = true;
-    if (metadata.title.length == 0) {
+    if (metadata.title.length === 0) {
       valid = false;
       alert("Title cannot be empty");
-    } else if (metadata.language.length == 0) {
+    } else if (metadata.language.length === 0) {
       valid = false;
       alert("Language cannot be empty");
-    } else if (metadata.positiveMark.length == 0) {
+    } else if (metadata.positiveMark.length === 0) {
       valid = false;
       alert("Positive marks cannot be empty");
-    } else if (metadata.negativeMark.length == 0) {
+    } else if (metadata.negativeMark.length === 0) {
       valid = false;
       alert("Negative marks cannot be empty");
     } else {
       inputFields.map((mcq, index) => {
         if (
-          mcq.question.length == 0 ||
-          mcq.optionA.length == 0 ||
-          mcq.optionB.length == 0 ||
-          mcq.optionC.length == 0 ||
-          mcq.optionD.length == 0
+          mcq.question.length === 0 ||
+          mcq.optionA.length === 0 ||
+          mcq.optionB.length === 0 ||
+          mcq.optionC.length === 0 ||
+          mcq.optionD.length === 0
         ) {
           valid = false;
           alert(`Question ${index + 1} is incomplete`);
@@ -105,23 +99,12 @@ const AddQuiz = ({ quiz }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     console.log("inputFields", inputFields);
-    console.log("metatdata", metadata);
+    console.log("metadata", metadata);
     createQuizJson();
 
     if (isValid()) {
-      console.log(JSON.stringify(metadata))
-      // fetch("https://place-seeds.azurewebsites.net/create", {
-      //   method: "POST",
-      //   headers: { "content-type": "application/json" },
-      //   body: JSON.stringify(metadata),
-      // })
-      //   .then((res) => {
-      //     alert("Saved successfully.");
-      //     navigate("/content");
-      //   })
-      //   .catch((err) => {
-      //     console.log(err.message);
-      //   });
+      console.log(JSON.stringify(metadata));
+      // Save logic can be added here if needed
     }
   };
 
@@ -135,7 +118,7 @@ const AddQuiz = ({ quiz }) => {
     };
     setInputFields([...inputFields, newfield]);
   };
-  //     "positiveMark" : 1,    "negativeMark" : 0,    "id" : "Ramayana quiz 2",    "language" : "Kannada",
+
   const removeFields = (index) => {
     let data = [...inputFields];
     data.splice(index, 1);

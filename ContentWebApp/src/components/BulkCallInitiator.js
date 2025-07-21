@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import * as XLSX from 'xlsx';
 import { SEEDS_URL } from "../Constants";
 
-// const SEEDS_URL = 'your_seeds_url'; // replace with your SEEDS_URL
-
 const BulkCallInitiator = () => {
     const [phoneNumbers, setPhoneNumbers] = useState([]);
     const [contentList, setContentList] = useState([]);
@@ -13,15 +11,9 @@ const BulkCallInitiator = () => {
     // Fetch content IDs
     useEffect(() => {
         const fetchContents = async () => {
-            const seedsRes = await fetch(
-                `${SEEDS_URL}/content`,
-                {
-                  method: "GET",
-                  headers: {
-                    authToken: "postman",
-                  },
-                }
-              );
+            const seedsRes = await fetch(`${SEEDS_URL}/content`, {
+                method: "GET",
+            });
             const seedsData = await seedsRes.json();
             setContentList(seedsData); // Assuming seedsData is an array of contents
         };
@@ -41,10 +33,7 @@ const BulkCallInitiator = () => {
             const parsedData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
             console.log('Parsed Data:', parsedData);
             const phoneNumbers = parsedData.map(row => row[0]);
-            
             console.log('Extracted Phone Numbers:', phoneNumbers);
-            // const phoneNumbers = parsedData.flat().filter(item => typeof item === 'string');
-            // console.log('Extracted Phone Numbers:', phoneNumbers);
             setPhoneNumbers(phoneNumbers);
         };
         reader.readAsArrayBuffer(file);
@@ -82,7 +71,7 @@ const BulkCallInitiator = () => {
     };
 
     return (
-        <div style={{padding: "20px"}}>
+        <div style={{ padding: "20px" }}>
             <h3>Bulk Call Initiator</h3>
 
             <h4>Upload Phone Numbers</h4>
